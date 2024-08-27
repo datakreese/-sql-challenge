@@ -1,6 +1,6 @@
 # SQL Analysis for Human Resources
 ## Overview
-This analysis is designed to give an HR manager a snapshot of the company 
+This analysis is designed to give an engineering firm HR manager a snapshot of the business from 1980-1990. PostgreSQL is used to query the database, populating a variety of tables. 
 
 ## Index
 "Resources" folder houses all original csv files. The "employeeSQL" folder holds the entity relationship diagram and Postgres code 
@@ -20,4 +20,4 @@ This analysis is designed to give an HR manager a snapshot of the company
 Further exploration could include creating visuals in tableau to illustrate company growth, turnover rates by department, or gender equality by title and salary over time.
 
 ## Usage
-
+See MIT license for more detail.
