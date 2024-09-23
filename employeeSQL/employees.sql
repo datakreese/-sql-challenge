@@ -43,8 +43,8 @@ SELECT * FROM employees;
 SELECT * FROM salaries;
 
 SELECT e.emp_no, e.last_name, e.first_name, e.sex, s.salary
-FROM employees e
-LEFT JOIN salaries s
+FROM employees AS e
+LEFT JOIN salaries AS s
 ON e.emp_no = s.emp_no;
 
 --#2 Find the employees that were hired in 1986
@@ -77,9 +77,9 @@ INNER JOIN employees e ON e.emp_no = m.emp_no;
 
 --#5 Find the employees named "Hercules" that also have a last name starting with B
 
-SELECT first_name, last_name, sex
-FROM employees
-WHERE first_name LIKE 'Hercules' AND last_name LIKE 'B%';
+SELECT e.first_name, e.last_name, e.sex
+FROM employees AS e
+WHERE e.first_name='Hercules' AND e.last_name LIKE 'B%';
 
 --#6 Display only the employees in the sales departments.
 
@@ -114,9 +114,9 @@ WHERE d.dept_name IN (
 --#8 Count the unique last names 
 --insert a column that will store the count of each last name, descending order.
 
-SELECT last_name, COUNT(last_name) AS count_result
-FROM employees
-GROUP BY last_name
+SELECT e.last_name, COUNT(*) AS count_result
+FROM employees AS e
+GROUP BY e.last_name
 ORDER BY count_result DESC;
 
 --done
