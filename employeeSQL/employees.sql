@@ -1,38 +1,80 @@
 CREATE DATABASE sql_challenge;
 
-CREATE TABLE employees(emp_no INT PRIMARY KEY NOT NULL,
-					   emp_title_id VARCHAR(20) NOT NULL,
-					   birth_date DATE,
-					   first_name VARCHAR(20),
-					   last_name VARCHAR(20),
-					   sex CHAR,
-					   hire_date DATE
-					   FORIEGN KEY(emp_title_id) REFERENCES title(title_id)
+USE sql_challenge;  -- Ensure to use the database
+
+CREATE TABLE title (
+    title_id VARCHAR(20) PRIMARY KEY NOT NULL,
+    title VARCHAR(20)
 );
 
-CREATE TABLE salaries(emp_no INT NOT NULL,
-					 salary INT
-					 FORIEGN KEY(emp_no) REFERENCES employees(emp_no));
-					 
-CREATE TABLE departments(dept_no VARCHAR(20) PRIMARY KEY NOT NULL,
-						 dept_name VARCHAR(20)
+CREATE TABLE employees (
+    emp_no INT PRIMARY KEY NOT NULL,
+    emp_title_id VARCHAR(20) NOT NULL,
+    birth_date DATE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    sex CHAR(1),  -- Specify length for CHAR
+    hire_date DATE,
+    FOREIGN KEY (emp_title_id) REFERENCES title(title_id) 
 );
 
-CREATE TABLE dept_emp(emp_no INT NOT NULL,
-					  dept_no VARCHAR(20) NOT NULL
-					  FORIEGN KEY(emp_no) REFERENCES employees(emp_no)
-					  FORIEGN KEY(dept_no) REFERENCES departments(dept_no)
+CREATE TABLE departments (
+    dept_no VARCHAR(20) PRIMARY KEY NOT NULL,
+    dept_name VARCHAR(20)
 );
 
-CREATE TABLE dept_manager(dept_no VARCHAR(20),
-						  emp_no INT NOT NULL
-						  FORIEGN KEY(emp_no) REFERENCES employees(emp_no)
-						  FORIEGN KEY(dept_no) REFERENCES departments(dept_no)
+CREATE TABLE salaries (
+    emp_no INT NOT NULL,
+    salary INT,
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)  
 );
 
-CREATE TABLE title(title_id VARCHAR(20) PRIMARY KEY NOT NULL,
-				   title VARCHAR(20)
+CREATE TABLE dept_emp (
+    emp_no INT NOT NULL,
+    dept_no VARCHAR(20) NOT NULL,
+    PRIMARY KEY (emp_no, dept_no),  -- Composite primary key
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no), 
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no) 
 );
+
+CREATE TABLE dept_manager (
+    dept_no VARCHAR(20),
+    emp_no INT NOT NULL,
+    PRIMARY KEY (dept_no, emp_no),  -- Composite primary key
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no),  
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no) 
+);
+
+ALTER TABLE employees 
+ADD CONSTRAINT fk_employees_emp_title_id 
+FOREIGN KEY (emp_title_id) 
+REFERENCES title (title_id);
+
+ALTER TABLE dept_emp 
+ADD CONSTRAINT fk_dept_emp_emp_no 
+FOREIGN KEY (emp_no) 
+REFERENCES employees (emp_no);
+
+ALTER TABLE dept_emp 
+ADD CONSTRAINT fk_dept_emp_dept_no 
+FOREIGN KEY (dept_no) 
+REFERENCES departments (dept_no);
+
+ALTER TABLE dept_manager 
+ADD CONSTRAINT fk_dept_manager_emp_no 
+FOREIGN KEY (emp_no) 
+REFERENCES employees (emp_no);
+
+ALTER TABLE dept_manager 
+ADD CONSTRAINT fk_dept_manager_dept_no 
+FOREIGN KEY (dept_no) 
+REFERENCES departments (dept_no);
+
+ALTER TABLE salaries 
+ADD CONSTRAINT fk_salaries_emp_no 
+FOREIGN KEY (emp_no) 
+REFERENCES employees (emp_no);
+
 
 --import all csv files via tables import menu
 
